@@ -8,8 +8,6 @@ This is a clicker game where you earn points, unlock trophies, progress through 
 
 - 🏆 Hundreds of trophies to unlock
 - 👑 Unique Prestige System
-- 🌿 Memory Trails
-- 🤠 Frontier Memories
 - 🎨 Unlockable Themes
 - 💾 Automatic Save
 - 📱 Installable as a Progressive Web App (PWA)
