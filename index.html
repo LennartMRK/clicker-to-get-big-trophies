@@ -1,0 +1,423 @@
+
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clicker to get big trophies - Version 1.1 Beta 2</title>
+<meta name="theme-color" content="#1e40af">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Big Trophies">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="updateOverlay" class="updateOverlay" role="dialog" aria-modal="true" aria-labelledby="updateTitle">
+  <div class="updateCard">
+    <div class="updateHeader">
+      <div>
+        <h2 id="updateTitle">🏆 En av de största uppdateringarna hittills!</h2>
+        <span class="updateVersion">Version 1.1 Beta 2</span>
+      </div>
+      <button class="updateClose" type="button" onclick="closeUpdateOverlay()" aria-label="Stäng uppdateringen">✕</button>
+    </div>
+    <div class="updateLead">Välkommen tillbaka till Clicker to Get Big Trophies. Den här versionen innehåller flera stora nyheter, nya hjälpfunktioner och finjusteringar av spelupplevelsen.</div>
+    <div class="updateGrid">
+      <div class="updateItem"><b>🤖 Nyhet: Oskar AI</b>Chatta med spelets AI-assistent och fråga om hur spelet fungerar, trophies, perks, prestige, versionen och uppdateringar.</div>
+      <div class="updateItem"><b>🎙️ Nyhet: Hjälpen från Maritta</b>Lyssna på en frivillig ljudguide som hjälper nya spelare att förstå spelets viktigaste funktioner och menyer.</div>
+      <div class="updateItem"><b>🏘️ Nyhet: Jullsta Series</b>En ny exklusiv serie med Jullsta Beginner, Jullsta Explorer, Jullsta Legend, King of Jullsta och Spirit of Jullsta.</div>
+      <div class="updateItem"><b>👑 Fem nya Jullsta-perks</b>Slutför hela Jullsta Series för att låsa upp fem perks med bonusar till klick och poäng.</div>
+      <div class="updateItem"><b>🎨 Finjusterade menyer</b>Flera menyer och hjälpytor har justerats för att bli tydligare och smidigare på både mobil och dator.</div>
+      <div class="updateItem"><b>🛠️ Tekniska förbättringar</b>Spelets grund har organiserats för bättre stabilitet och enklare framtida uppdateringar.</div>
+      <div class="updateItem"><b>⚙️ Förbättrade inställningar</b>Sparfiler, språk och andra viktiga alternativ är enklare att hitta och använda.</div>
+      <div class="updateItem"><b>🐞 Buggfixar och små förbättringar</b>Flera mindre problem har rättats för en stabilare spelupplevelse.</div>
+    </div>
+    <div class="updateNote"><b>Viktigt:</b> Inga befintliga trophies, trophy-beskrivningar eller citat har ändrats. Uppdateringen lägger till nytt innehåll och förbättringar runt det befintliga spelet.</div>
+    <div class="updateActions">
+      <button class="green" type="button" onclick="continueFromUpdate()">🎮 Fortsätt till spelet</button>
+      <label><input id="hideUpdateAgain" type="checkbox"> Visa inte detta igen</label>
+    </div>
+  </div>
+</div>
+
+<section id="menuScreen" class="screen">
+  <div class="panel">
+    <div class="logo">🏆</div>
+    <h1>Clicker to get big trophies</h1>
+    <div class="menu">
+
+      <button class="menuGuideButton" onclick="openMarittaGuide()">🎙️ Tryck här för att lyssna på guiden från Maritta</button>
+      <button class="primary" onclick="showScreen('gameScreen')">Starta spelet</button>
+      <button class="green" onclick="showScreen('clickUpgradeScreen')">Klick-upgrades</button>
+      <button class="purple" onclick="showScreen('pointUpgradeScreen')">Poäng-upgrades</button>
+      <button class="blue" onclick="showScreen('trophyScreen')">Trophies</button>
+      <button class="purple" onclick="showScreen('prestigeHallScreen')">Prestige Hall</button>
+      <button class="blue" onclick="showScreen('exclusiveSeriesScreen')">Exklusiva serier</button>
+      <button class="purple" onclick="showScreen('perkScreen')">👑 Perks</button>
+      <button class="blue" onclick="showScreen('oskarAiScreen')">🤖 Oskar AI</button>
+      <button class="updateMenuButton" onclick="openUpdateOverlay(true)">📢 Senaste uppdateringen</button>
+      <button class="green" onclick="showScreen('themeScreen')">🎨 Teman</button>
+      <button class="dark" onclick="showScreen('settingsScreen')">⚙️ Inställningar</button>
+      <button class="red" onclick="showScreen('resetScreen')">Reset / Prestige</button>
+    </div>
+  </div>
+</section>
+
+
+<div id="marittaGuideOverlay" class="marittaOverlay" role="dialog" aria-modal="true" aria-labelledby="marittaGuideTitle">
+  <div class="marittaCard">
+    <div class="marittaHeader">
+      <div>
+        <h2 id="marittaGuideTitle" class="marittaTitle">🎙️ Långa guiden från Maritta</h2>
+        <p class="marittaSubtitle">En frivillig introduktion till spelets viktigaste funktioner</p>
+      </div>
+      <button class="marittaClose" onclick="closeMarittaGuide()" aria-label="Stäng guiden">✕</button>
+    </div>
+
+    
+    <div class="marittaPlayerRow">
+      <div class="marittaControls">
+        <button id="marittaPlayBtn" class="primary" onclick="playMarittaGuide()">▶ Spela</button>
+        <button id="marittaPauseBtn" class="purple" onclick="pauseMarittaGuide()">⏸ Pausa</button>
+      </div>
+
+      <div class="marittaProgressWrap">
+        <input id="marittaProgress" class="marittaProgress" type="range" min="0" max="100" value="0" step="0.1" aria-label="Guidens position">
+        <div class="marittaTime">
+          <span id="marittaCurrentTime">0:00</span>
+          <span id="marittaDuration">0:00</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="marittaGuideText" class="marittaText marittaTextCollapsed">Hej och varmt välkommen till Clicker to Get Big Trophies! Jag heter Maritta och hjälper dig att komma igång. Börja med att trycka på Starta spelet och använd den stora klickknappen för att samla klick och poäng. Med Klick-upgrades och Poäng-upgrades utvecklas du snabbare. I Trophy-menyn kan du följa dina trophies och serier, medan Perks visar dina specialbonusar. I Prestige-hallen kan du se dina prestige-nivåer och göra en Prestige Reset för permanenta bonusar. Under Exklusiva serier kan du läsa om spelets olika serier och trophies, och i Teman kan du ändra spelets utseende. I Inställningar hanterar du sparfiler och språk. Behöver du hjälp finns alltid Oskar AI redo att svara på dina frågor. Spela i din egen takt, samla trophies och framför allt, ha riktigt roligt. Lycka till! 🏆</div>
+    <button id="marittaExpandBtn" class="marittaExpandBtn" onclick="toggleMarittaText()">Visa hela texten</button>
+
+    <div id="marittaStatus" class="marittaStatus">Guiden startar bara när du trycker på Spela.</div>
+    <audio id="marittaGuideAudio" preload="metadata" src="audio/maritta-guide.mp3"></audio>
+  </div>
+</div>
+
+<section id="gameScreen" class="screen">
+  <div class="topbar">
+    <button class="smallBtn dark" onclick="showScreen('menuScreen')">← Meny</button>
+    <div class="rightBtns">
+      <button class="smallBtn green" onclick="showScreen('clickUpgradeScreen')">Klick</button>
+      <button class="smallBtn purple" onclick="showScreen('pointUpgradeScreen')">Poäng</button>
+      <button class="smallBtn blue" onclick="showScreen('trophyScreen')">Trophies</button>
+    </div>
+  </div>
+  <div class="panel gamePanel">
+    <div class="playLayout">
+      <div class="clickZone">
+        <div id="clickButton" class="clickButton">👆</div>
+        <div class="clickHint">Tryck för klick & poäng</div>
+        <div class="nextGoal" id="nextGoalText">Nästa trophy laddas...</div>
+      </div>
+      <div class="sideStats">
+        <div class="stat">Poäng <b id="scoreText">0</b></div>
+        <div class="stat">Totala klick <b id="clickText">0</b></div>
+        <div class="stat">Klick per tryck <b id="clickPowerText">1×</b></div>
+        <div class="stat">Poäng per tryck <b id="pointPowerText">1×</b></div>
+        <div class="stat">Prestigebonus <b id="prestigeBonusText">1×</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="clickUpgradeScreen" class="screen">
+  <div class="topbar">
+    <button class="smallBtn dark" onclick="showScreen('menuScreen')">← Meny</button>
+    <div class="rightBtns">
+      <button class="smallBtn primary" onclick="showScreen('gameScreen')">Spela</button>
+      <button class="smallBtn purple" onclick="showScreen('pointUpgradeScreen')">Poäng-upgrades</button>
+    </div>
+  </div>
+  <div class="panel">
+    <h1>Klick-upgrades</h1>
+    <p class="subtitle">Klick-upgrades är bara för klickstyrka och autoclicks. Perks ligger separat i Perks-menyn.</p>
+    <div class="stats">
+      <div class="stat">Poäng <b id="clickUpgradeScoreText">0</b></div>
+      <div class="stat">Klick per tryck <b id="clickUpgradePowerText">1×</b></div>
+      <div class="stat">Auto klick/sek <b id="autoClickRateText">0×</b></div>
+    </div>
+    <div class="grid" id="clickUpgradeGrid"></div>
+  </div>
+</section>
+
+<section id="pointUpgradeScreen" class="screen">
+  <div class="topbar">
+    <button class="smallBtn dark" onclick="showScreen('menuScreen')">← Meny</button>
+    <div class="rightBtns">
+      <button class="smallBtn primary" onclick="showScreen('gameScreen')">Spela</button>
+      <button class="smallBtn green" onclick="showScreen('clickUpgradeScreen')">Klick-upgrades</button>
+    </div>
+  </div>
+  <div class="panel">
+    <h1>Poäng-upgrades</h1>
+    <p class="subtitle">Poäng-upgrades är bara för poängstyrka och autopoäng. Perks ligger separat i Perks-menyn.</p>
+    <div class="stats">
+      <div class="stat">Poäng <b id="pointUpgradeScoreText">0</b></div>
+      <div class="stat">Poäng per tryck <b id="pointUpgradePowerText">1×</b></div>
+      <div class="stat">Auto poäng/sek <b id="autoPointRateText">0×</b></div>
+    </div>
+    <div class="grid" id="pointUpgradeGrid"></div>
+  </div>
+</section>
+
+<section id="trophyScreen" class="screen">
+  <div class="topbar">
+    <button class="smallBtn dark" onclick="showScreen('menuScreen')">← Meny</button>
+    <div class="rightBtns">
+      <button class="smallBtn primary" onclick="showScreen('gameScreen')">Spela</button>
+      <button class="smallBtn green" onclick="showScreen('clickUpgradeScreen')">Klick</button>
+      <button class="smallBtn purple" onclick="showScreen('pointUpgradeScreen')">Poäng</button>
+    </div>
+  </div>
+  <div class="panel">
+    <h1>Trophies</h1>
+    <p class="subtitle">Här visas alla trophies som går att låsa upp. Här finns trophy-räknaren med totalt antal trophies. Sök, filtrera och öppna specialtrophies för beskrivning och citat.</p>
+    <div class="stats">
+      <div class="stat">Trophies <b id="trophyMenuCountText">0/0</b></div>
+      <div class="stat">Aktivt filter <b id="activeFilterText">Alla</b></div>
+    </div>
+    <div class="controls">
+      <input id="trophySearch" class="searchInput" placeholder="Sök trophy eller serie..." oninput="setTrophySearch(this.value)">
+      <button class="filterBtn active" data-filter="all" onclick="setTrophyFilter('all')">Alla</button>
+      <button class="filterBtn" data-filter="unlocked" onclick="setTrophyFilter('unlocked')">Upplåsta</button>
+      <button class="filterBtn" data-filter="locked" onclick="setTrophyFilter('locked')">Låsta</button>
+      <button class="filterBtn" data-filter="cats" onclick="setTrophyFilter('cats')">Kattserier</button>
+      <button class="filterBtn" data-filter="queens" onclick="setTrophyFilter('queens')">Queen Series</button>
+      <button class="filterBtn" data-filter="special" onclick="setTrophyFilter('special')">Special</button>
+      <button class="filterBtn" data-filter="endgame" onclick="setTrophyFilter('endgame')">Endgame</button>
+    </div>
+    <div class="grid" id="seriesProgressGrid"></div>
+    <div class="grid" id="trophyGrid"></div>
+  </div>
+</section>
+
+<section id="resetScreen" class="screen">
+  <div class="topbar">
+    <button class="smallBtn dark" onclick="showScreen('menuScreen')">← Meny</button>
+  </div>
+  <div class="panel">
+    <h1>Reset / Prestige</h1>
+    <p class="subtitle">Här kan du börja om. Vanlig reset rensar allt. Prestige kan bara göras när alla trophies är upplåsta och ger permanent poängbonus.</p>
+    <div class="stats">
+      <div class="stat">Prestige Level <b id="prestigeLevelText">0</b></div><div class="stat">Prestige Titel <b id="prestigeTitleText">Ingen</b></div>
+      <div class="stat">Permanent bonus <b id="resetPrestigeBonusText">1×</b></div>
+      <div class="stat">Nästa prestige <b id="nextPrestigeText">2×</b></div>
+      <div class="stat">Upplåsta trophies <b id="resetTrophyText">0</b></div>
+    </div>
+    <div class="warning">
+      <b>Vanlig reset</b>
+      <p>Rensar poäng, klick, upgrades, autos och trophies. Prestige rensas också.</p>
+      <button class="red" onclick="hardReset()">Resetta allt</button>
+    </div>
+    <div class="warning">
+      <b>Prestige reset</b>
+      <p>Kan bara användas när du har låst upp alla trophies. Du börjar om, men får +1 permanent prestigebonus. Level 1 ger 2× på både klick och poäng, level 2 ger 3×, level 3 ger 4× och så vidare. Från Hampus Master och vidare till Hampus Grandmaster får du ännu större bonusar. Hampus Grandmaster I till V, Loyal Member I till V, Memory Trail-prestiger och Frontier Memories-prestiger ger sina egna specialbonusar för klick och poäng.</p>
+      <button class="primary" id="prestigeBtn" onclick="prestigeReset()">Prestige Reset</button>
+    </div>
+  </div>
+</section>
+
+
+
+<section id="prestigeHallScreen" class="screen">
+  <div class="topbar">
+    <button class="smallBtn dark" onclick="showScreen('menuScreen')">← Meny</button>
+  </div>
+  <div class="panel">
+    <h1>👑 Prestige Hall</h1>
+    <p class="subtitle">Här är alla prestiger som är tillgängliga och kan låsas upp. De som du inte har är gråa och har ett lås på sig. De du har blir gröna.</p>
+    <div class="stats">
+      <div class="stat">Din Prestige <b id="hallPrestigeLevel">0</b></div>
+      <div class="stat">Din Titel <b id="hallPrestigeTitle">Ingen</b></div>
+      <div class="stat">Nästa mål <b id="hallNextGoal">Prestige 1</b></div>
+    </div>
+    <div class="grid" id="prestigeHallGrid"></div>
+  </div>
+</section>
+
+
+<section id="exclusiveSeriesScreen" class="screen">
+  <div class="topbar">
+    <button class="smallBtn dark" onclick="showScreen('menuScreen')">← Meny</button>
+    <div class="rightBtns">
+      <button class="smallBtn blue" onclick="showScreen('trophyScreen')">Trophies</button>
+      <button class="smallBtn green" onclick="showScreen('clickUpgradeScreen')">Klick-upgrades</button>
+      <button class="smallBtn purple" onclick="showScreen('pointUpgradeScreen')">Poäng-upgrades</button>
+    </div>
+  </div>
+  <div class="panel">
+    <h1>✨ Exklusiva serier</h1>
+    <p class="subtitle">
+      Här kan du se alla exklusiva serier som finns i spelet och läsa vad varje serie handlar om.
+      Tryck på en kategori för att öppna eller stänga beskrivningen.
+    </p>
+    <div class="grid" id="exclusiveSeriesGrid">
+
+      <div class="card seriesLibraryCard exclusive"><div class="icon">🐾</div><b>Hampus Exclusive</b><br><small>Trophy-serie</small><br><span class="seriesLibraryBadge">🐾 Hampus Exclusive</span><div class="seriesInfoBox"><b>Vad är detta?</b><br>En personlig serie inspirerad av Hampus, med minne och värme som tema.</div></div>
+      <div class="card seriesLibraryCard nostalgia"><div class="icon">📼</div><b>Nostalgia Series</b><br><small>Trophy-serie och upgrades</small><br><span class="seriesLibraryBadge">📼 Nostalgia Series</span><div class="seriesInfoBox"><b>Vad är detta?</b><br>En retroserie om gamla spelminnen, sparfiler och nostalgi.</div></div>
+      <div class="card seriesLibraryCard oskarLegacy"><div class="icon">🟢</div><b>Oskar Legacy Series</b><br><small>Trophy-serie</small><br><span class="seriesLibraryBadge">🟢 Oskar Legacy Series</span><div class="seriesInfoBox"><b>Vad är detta?</b><br>En personlig serie om Oskars spelresa, idéer och kreativa avtryck i projektet.</div></div>
+      <div class="card seriesLibraryCard undercoverSeries"><div class="icon">🕶️</div><b>Undercover Series</b><br><small>Trophy-serie</small><br><span class="seriesLibraryBadge">🕶️ Undercover Series</span><div class="seriesInfoBox"><b>Vad är detta?</b><br>En hemlig, agentlik och mystisk trophy-serie.</div></div>
+      <div class="card seriesLibraryCard trophyHunterSeries"><div class="icon">🏆</div><b>Trophy Hunter Series</b><br><small>Trophy-serie med läsbar info</small><br><span class="seriesLibraryBadge">🟡 Trophy Hunter Series</span><div class="seriesInfoBox"><b>Vad är detta?</b><br>Första serien där man kan trycka på en trophy och läsa en beskrivning.</div></div>
+      <div class="card seriesLibraryCard blackhole"><div class="icon">🕳️</div><b>Black Hole Special</b><br><small>Special trophies</small><br><span class="seriesLibraryBadge">🕳️ Black Hole Special</span><div class="seriesInfoBox"><b>Vad är detta?</b><br>En mörk endgame-serie för riktigt höga mål.</div></div>
+      <div class="card seriesLibraryCard infinity"><div class="icon">♾️</div><b>Infinity Series</b><br><small>Endgame trophies</small><br><span class="seriesLibraryBadge">♾️ Infinity Series</span><div class="seriesInfoBox"><b>Vad är detta?</b><br>En serie för spelets nästan oändliga slutmål.</div></div>
+      <div class="card seriesLibraryCard cosmicSeries"><div class="icon">🌌</div><b>Cosmic Series</b><br><small>Exklusiv upgrade-serie</small><br><span class="seriesLibraryBadge">🌌 Cosmic Series</span><div class="seriesInfoBox"><b>Vad är detta?</b><br>Spelets första exklusiva upgrade-serie för både klick och poäng.</div></div>
+
+    </div>
+  </div>
+</section>
+
+
+<section id="perkScreen" class="screen">
+  <div class="topbar"><button class="smallBtn dark" onclick="showScreen('menuScreen')">← Meny</button></div>
+  <div class="panel">
+    <h1>👑 Perks</h1>
+    <p class="subtitle">Här samlas Big Power-ups och Queen-serierna. De påverkar både klick och poäng, så de är spelets lilla kungliga maskinrum.</p>
+    <div class="stats">
+      <div class="stat">Poäng <b id="perkScoreText">0</b></div>
+      <div class="stat">Klickstyrka <b id="perkClickPowerText">0×</b></div>
+      <div class="stat">Poängstyrka <b id="perkPointPowerText">0×</b></div>
+    </div>
+    <div class="grid" id="perkGrid"></div>
+
+
+  </div>
+</section>
+
+
+<section id="oskarAiScreen" class="screen">
+  <div class="topbar"><button class="smallBtn dark" onclick="showScreen('menuScreen')">← Meny</button></div>
+  <div class="panel">
+    <h1>🤖 Oskar AI</h1>
+    <p class="subtitle">En liten hjälpbot för spelet. Fråga om hur man kommer igång, vad spelet går ut på, vem som designat det, vilken version som körs eller vad som är nytt.</p>
+    <div class="aiBox">
+      <div class="aiIntro">Skriv med dina egna ord. Oskar AI känner igen många olika sätt att fråga om spelet, trophies, perks, prestige, versioner, uppdateringar, sparning, teman och språk. Custom-rösten används endast för hälsningen.</div>
+      <div class="aiVoiceRow">
+        <div>🔊 AI-röst <small id="oskarVoiceStatus">På</small></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
+          <button id="oskarVoiceToggleBtn" class="aiVoiceToggle" onclick="toggleOskarVoice()">Stäng av röst</button>
+          <button id="oskarWelcomeBtn" class="aiVoiceToggle" onclick="playOskarWelcomeAudio(false)">▶ Spela upp hälsning</button>
+        </div>
+      </div>
+      <audio id="oskarWelcomeAudio" src="audio/oskar-greeting.mp3" preload="auto"></audio>
+      <div id="oskarAiChat" class="aiChat"></div>
+      <div class="aiQuick">
+        <button onclick="askOskarAI('Hur kommer jag igång?')">Kom igång</button>
+        <button onclick="askOskarAI('Vad är trophies?')">Trophies</button>
+        <button onclick="askOskarAI('Vad är perks?')">Perks</button>
+        <button onclick="askOskarAI('Hur fungerar prestige?')">Prestige</button>
+        <button onclick="askOskarAI('Vilken version är detta?')">Version</button>
+        <button onclick="askOskarAI('Vad är nytt?')">Uppdatering</button>
+        <button onclick="askOskarAI('Vem skapade spelet?')">Skaparen</button>
+        <button class="dark" onclick="resetOskarAIChat()">Rensa chatt</button>
+      </div>
+      <div class="aiInputRow">
+        <input id="oskarAiInput" placeholder="Skriv din fråga här..." onkeydown="if(event.key==='Enter') sendOskarAI()">
+        <button class="primary" onclick="sendOskarAI()">Skicka</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="themeScreen" class="screen">
+  <div class="topbar"><button class="smallBtn dark" onclick="showScreen('menuScreen')">← Meny</button></div>
+  <div class="panel">
+    <h1>🎨 Teman</h1>
+    <p class="subtitle">Här finns alla teman som du kan välja mellan. Vissa teman är tillgängliga direkt, medan andra är låsta och kan låsas upp genom att prestiga eller genom att nå särskilda prestationer under spelets gång.</p>
+    <div class="stats">
+      <div class="stat">Aktivt tema <b id="activeThemeText">Classic</b></div>
+    </div>
+    <div class="themeGrid" id="themeGrid"></div>
+  </div>
+</section>
+
+<section id="changelogScreen" class="screen">
+  <div class="topbar"><button class="smallBtn dark" onclick="showScreen('menuScreen')">← Meny</button></div>
+  <div class="panel">
+    <h1>📜 Uppdateringar</h1>
+    <p class="subtitle">Spelets lilla historiebok, från kattserier till drottningperks och UI-finslipning.</p>
+    <div class="grid">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="card"><b>Beta 52</b><br><small>Helge Big Power lades till som kombinerad klick- och poängpower.</small></div>
+      <div class="card"><b>Beta 53-54</b><br><small>Ellie the Queen Series lades till och kopplades in i Trophy-menyn.</small></div>
+      <div class="card"><b>Beta 55</b><br><small>Vilda the Next Queen Series lades till.</small></div>
+      
+
+
+</div>
+  </div>
+</section>
+
+<section id="settingsScreen" class="screen">
+  <div class="topbar"><button class="smallBtn dark" onclick="showScreen('menuScreen')">← Meny</button></div>
+  <div class="panel">
+    <h1>⚙️ Inställningar</h1>
+    <p class="subtitle">Här finns bara praktiska inställningar. Frågor om spelet, versionen och uppdateringar ligger i Oskar AI.</p>
+
+    <div class="settingsMenu">
+      <button class="green" onclick="openSettingsSection('saveSettingsSection')">Sparmeny</button>
+      <button class="blue" onclick="openSettingsSection('displaySettingsSection')">Utseende</button>
+      <button class="purple" onclick="openSettingsSection('languageSettingsSection')">Språk</button>
+    </div>
+
+    <div id="saveSettingsSection" class="settingsBox settingsSection active">
+      <h2>Sparmeny</h2>
+      <p>Här kan du exportera eller importera din sparfil. Bra om du vill säkerhetskopiera progressen innan du testar nya versioner.</p>
+      <button class="green" onclick="exportSave()">Exportera save</button><br><br>
+      <textarea id="exportBox" class="saveBox" placeholder="Din sparfil hamnar här..."></textarea>
+      <br><br>
+      <textarea id="importBox" class="saveBox" placeholder="Klistra in exporterad save här..."></textarea><br><br>
+      <button class="primary" onclick="importSave()">Importera save</button>
+    </div>
+
+    <div id="displaySettingsSection" class="settingsBox settingsSection">
+      <h2>Utseende</h2>
+      <p>Spelet använder just nu mörkt läge som standard.</p>
+      <div class="card unlocked" style="text-align:left">
+        <b>🌙 Mörkt läge</b><br>
+        <small>Aktivt. Ett ljusare läge kan läggas till i en framtida uppdatering.</small>
+      </div>
+    </div>
+
+    <div id="languageSettingsSection" class="settingsBox settingsSection">
+      <h2>Språk</h2>
+      <p>Svenska är standardspråket just nu.</p>
+      <div class="card unlocked" style="text-align:left">
+        <b>🇸🇪 Svenska</b><br>
+        <small>Aktivt språk.</small>
+      </div>
+      <div class="card" style="text-align:left;margin-top:12px">
+        <b>🇬🇧 Engelska</b><br>
+        <small>Planeras för framtiden. Förhoppningsvis kommer engelska och fler språk senare.</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="js/game.js"></script>
+
+</body>
+</html>
