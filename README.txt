@@ -8,7 +8,6 @@ This is a clicker game where you earn points, unlock trophies, progress through 
 
 - 🏆 Hundreds of trophies to unlock
 - 👑 Unique Prestige System
-- ✨ Exclusive Trophy Series
 - 🌿 Memory Trails
 - 🤠 Frontier Memories
 - 🎁 Unique Perks with special bonuses
