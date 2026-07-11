@@ -29,7 +29,6 @@ https://lennartmrk.github.io/clicker-to-get-big-trophies/
 This project is actively being developed and receives regular updates with new:
 
 - 🏆 Trophies
-- 🎁 Perks
 - 👑 Prestige Levels
 - ✨ Exclusive Series
 - 🎨 Themes
